@@ -11,28 +11,21 @@ public class Main extends ApplicationAdapter {
     public static final float SCR_HEIGHT = 720;
     private SpriteBatch batch;
     private Texture image;
-    float x = 0;
-    float y = 100;
-    float width = 378;
-    float height = 63;
-    float stepX = 5;
-    float stepY = 3;
+    Wasp Wasp;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        image = new Texture("libgdx.png");
+        image = new Texture("Wasp.png");
+        Wasp = new Wasp();
     }
 
     @Override
     public void render() {
-        x += stepX;
-        y += stepY;
-        if (x > SCR_WIDTH - width|| x < 0) stepX = -stepX;
-        if (y > SCR_HEIGHT - height|| y < 0) stepY = -stepY;
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+        Wasp.fly();
+        ScreenUtils.clear(1f, 1f, 1f, 1f);
         batch.begin();
-        batch.draw(image, x, y);
+        batch.draw(image, Wasp.x, Wasp.y, Wasp.width, Wasp.height);
         batch.end();
     }
 
