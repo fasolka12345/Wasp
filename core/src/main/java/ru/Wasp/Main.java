@@ -11,27 +11,27 @@ public class Main extends ApplicationAdapter {
     public static final float SCR_HEIGHT = 720;
     private SpriteBatch batch;
     private Texture image;
-    Wasp Wasp, Wasp1, Wasp2;
+    Wasp[] wasp = new Wasp[33];
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("Wasp.png");
-        Wasp = new Wasp(0, 0);
-        Wasp1 = new Wasp(500, 200);
-        Wasp2 = new Wasp(100, 300);
+        for(int i = 0; i < wasp.length; i++) {
+            wasp[i] = new Wasp(SCR_WIDTH/2, SCR_HEIGHT/2);
+        }
     }
 
     @Override
     public void render() {
-        Wasp.fly();
-        Wasp1.fly();
-        Wasp2.fly();
+        for(int i = 0; i < wasp.length; i++) {
+            wasp[i].fly();
+        }
         ScreenUtils.clear(1f, 1f, 1f, 1f);
         batch.begin();
-        batch.draw(image, Wasp.x, Wasp.y, Wasp.width, Wasp.height, 0, 0, 789, 575 , Wasp.flip(), false);
-        batch.draw(image, Wasp1.x, Wasp1.y, Wasp1.width, Wasp1.height, 0, 0, 789, 575 , Wasp1.flip(), false);
-        batch.draw(image, Wasp2.x, Wasp2.y, Wasp2.width, Wasp2.height, 0, 0, 789, 575 , Wasp2.flip(), false);
+        for(int i = 0; i < wasp.length; i++) {
+            batch.draw(image, wasp[i].x, wasp[i].y, wasp[i].width, wasp[i].height, 0, 0, 789, 575, wasp[i].flip(), false);
+        }
         batch.end();
     }
 
