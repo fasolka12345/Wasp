@@ -2,6 +2,7 @@ package ru.Wasp;
 
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,7 +17,7 @@ public class Main extends ApplicationAdapter {
     private Texture imgTrump;
 
     private Wasp[] wasp = new Wasp[33];
-    private Trump[] trump = new Trump[55];
+    private Trump[] trump = new Trump[22];
 
     @Override
     public void create() {
@@ -35,8 +36,20 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void render() {
-        // Независимые события
-        for(int i = 0; i < wasp.length; i++) {
+        //Касания
+        if (Gdx.input.justTouched()) {
+            float tx = Gdx.input.getX();
+            float ty = Gdx.input.getY();
+            for(int i = 0; i < wasp.length; i++) {
+                if(wasp[i].hit(tx, ty)) System.out.println("wasp");
+            }
+            for (int i = 0; i < trump.length; i++) {
+                if (trump[i].hit(tx, ty)) System.out.println("tramp");
+            }
+        }
+
+        //События
+        for (int i = 0; i < wasp.length; i++) {
             wasp[i].fly();
         }
         for (int i = 0; i < trump.length; i++) {
