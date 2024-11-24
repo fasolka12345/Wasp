@@ -3,15 +3,20 @@ package ru.Wasp;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.math.Vector3;
 
 public class Main extends ApplicationAdapter {
     public static final float SCR_WIDTH = 1280;
     public static final float SCR_HEIGHT = 720;
 
     private SpriteBatch batch;
+    private OrthographicCamera camera;
+    private Vector3 touch;
+
     private Texture imgWasp;
     private Texture imgBackGround;
     private Texture imgTrump;
@@ -22,6 +27,10 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
         batch = new SpriteBatch();
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, SCR_WIDTH, SCR_HEIGHT);
+        touch = new Vector3();
+
         imgWasp = new Texture("Wasp.png");
         imgBackGround = new Texture("bg.png");
         imgTrump = new Texture("Trump.png");
@@ -37,16 +46,17 @@ public class Main extends ApplicationAdapter {
     @Override
     public void render() {
         //Касания
-        if (Gdx.input.justTouched()) {
-            float tx = Gdx.input.getX();
-            float ty = Gdx.input.getY();
-            for(Wasp w: wasp) {
-                if(w.hit(tx, ty)) {
+        if(Gdx.input.justTouched()){
+            touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            camera.unproject(touch);
+
+            for (Wasp w: wasp) {
+                if(w.hit(touch.x, touch.y)) {
                     w.leave();
                 }
             }
             for (Trump t: trump) {
-                if (t.hit(tx, ty)) {
+                if(t.hit(touch.x, touch.y)) {
                     t.leave();
                 }
             }
@@ -61,6 +71,7 @@ public class Main extends ApplicationAdapter {
         }
 
         //Отрисовка
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
         for(Wasp w: wasp) {
@@ -80,3 +91,4 @@ public class Main extends ApplicationAdapter {
         imgTrump.dispose();
     }
 }
+
