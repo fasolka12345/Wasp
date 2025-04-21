@@ -3,10 +3,10 @@ package ru.Wasp;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.math.Vector3;
 
 public class Main extends ApplicationAdapter {
@@ -20,6 +20,8 @@ public class Main extends ApplicationAdapter {
     private Texture imgWasp;
     private Texture imgBackGround;
     private Texture imgTrump;
+    private Sound sndWasp;
+    private Sound sndTrump;
 
     private Wasp[] wasp = new Wasp[33];
     private Trump[] trump = new Trump[22];
@@ -32,8 +34,11 @@ public class Main extends ApplicationAdapter {
         touch = new Vector3();
 
         imgWasp = new Texture("Wasp.png");
-        imgBackGround = new Texture("bg.png");
+        imgBackGround = new Texture("bg.jpg");
         imgTrump = new Texture("Trump.png");
+
+        sndWasp = Gdx.audio.newSound(Gdx.files.internal("wasp.mp3"));
+        sndTrump = Gdx.audio.newSound(Gdx.files.internal("trump2.mp3"));
 
         for(int i = 0; i < wasp.length; i++) {
             wasp[i] = new Wasp(SCR_WIDTH/2, SCR_HEIGHT/2);
@@ -53,11 +58,13 @@ public class Main extends ApplicationAdapter {
             for (Wasp w: wasp) {
                 if(w.hit(touch.x, touch.y)) {
                     w.leave();
+                    sndWasp.play();
                 }
             }
             for (Trump t: trump) {
                 if(t.hit(touch.x, touch.y)) {
                     t.leave();
+                    sndTrump.play();
                 }
             }
         }
@@ -89,6 +96,8 @@ public class Main extends ApplicationAdapter {
         imgBackGround.dispose();
         imgWasp.dispose();
         imgTrump.dispose();
+        sndWasp.dispose();
+        sndTrump.dispose();
     }
 }
 

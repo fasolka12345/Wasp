@@ -1,6 +1,5 @@
 package ru.Wasp;
 
-
 public class Wasp extends Insect {
     public Wasp(float x, float y){
         super(x, y);
